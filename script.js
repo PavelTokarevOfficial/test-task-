@@ -37,15 +37,40 @@ document.getElementById('hidden-text').addEventListener('click', function () {
     document.getElementById('show-all-text').classList.remove('hidden');
     document.getElementById('hidden-text').classList.add('hidden');
 });
+let swiper;
 
-const swiper = new Swiper(".swiper", {
-    autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-    },
-    pagination: {
-        el: ".swiper-pagination",
-    },
+function initSwiper() {
+    swiper = new Swiper(".swiper", {
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+        },
+    });
+}
+
+if (window.innerWidth < 992) {
+    initSwiper();
+} else {
+    document.getElementById('list-images').classList.remove('swiper-wrapper')
+}
+
+window.addEventListener('resize', function () {
+    if (window.innerWidth < 992) {
+        document.getElementById('list-images').classList.add('swiper-wrapper')
+        if (!swiper) {
+            initSwiper();
+        }
+    } else {
+        document.getElementById('list-images').classList.remove('swiper-wrapper')
+        if (swiper) {
+            swiper.destroy();
+            swiper = undefined;
+        }
+    }
 });
+
 
 Fancybox.bind("[data-fancybox]", {});
